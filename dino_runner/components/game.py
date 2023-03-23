@@ -83,17 +83,20 @@ class Game:
         self.scroll()
         self.draw_background()
         self.player.draw(self.screen)
-        if self.score >= 1000 and self.score <= 1100:
+        # Quando chegar aos 1500 pontos, o Godzilla chega até o Guidorah para duelar (implementei dessa forma somente para visualização, ainda será otimizado).
+        # Caso o poder atômico for >= 50, o Godzilla ganha e o jogo segue (posteriormente após essa parte o personagem principal e o mapa vai mudar, com novos desafios).
+        # Caso o poder atômico seja inferior a 50, ele perde e volta pra tela de restart.
+        if self.score >= 1500 and self.score <= 1600:
             self.guidorah.draw(self.screen)
-            if self.player.atomic_power >= 30:
+            if self.player.atomic_power >= 50:
+                self.draw_score()
                 self.player.shield = True
                 self.obstacle_manager.reset_obstacles()
         else:
             self.obstacle_manager.draw(self.screen)
             self.draw_score()
             self.draw_power_up_time()
-            self.power_up_manager.draw(self.screen)
-            
+            self.power_up_manager.draw(self.screen)     
         pygame.display.update()
         pygame.display.flip()
 
