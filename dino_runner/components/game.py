@@ -83,9 +83,9 @@ class Game:
         self.scroll()
         self.draw_background()
         self.player.draw(self.screen)
-        if self.score >= 1500 and self.score <= 1700:
+        if self.score >= 1000 and self.score <= 1100:
             self.guidorah.draw(self.screen)
-            if self.player.atomic_power >= 50:
+            if self.player.atomic_power >= 30:
                 self.player.shield = True
                 self.obstacle_manager.reset_obstacles()
         else:
