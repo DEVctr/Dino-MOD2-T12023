@@ -155,14 +155,17 @@ class Game:
             pos_x_center=100,
             pos_y_center=50
         )
-        draw_message_component(
-            "If your atomic power is >= 50 you will defeat King Guidorah.",
-            self.screen, RED, 15, 480, 750
-        )
-        draw_message_component(
-            f"Missing {1500 - self.score} points for the next stage:",
-            self.screen, RED, 15, 460, 673
-        )
+        guidorah = self.guidorah_is_on()
+        if guidorah == False:
+            draw_message_component(
+                "If your atomic power is >= 50 you will defeat King Guidorah.",
+                self.screen, RED, 15, 480, 750
+            )
+        if guidorah == False:
+            draw_message_component(
+                f"Missing {1500 - self.score} points for the next stage:",
+                self.screen, RED, 15, 460, 673
+            )
 
     def draw_power_up_time(self):
         if self.player.has_power_up:
