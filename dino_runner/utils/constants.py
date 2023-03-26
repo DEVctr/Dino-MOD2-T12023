@@ -22,10 +22,10 @@ RUNNING = [
 ]
 
 RUNNING_SHIELD = [
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaNuclear1.png")),
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaNuclear2.png")),
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaNuclear3.png")),
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaNuclear4.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaRunShield1.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaRunShield2.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaRunShield3.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaRunShield4.png")),
 ]
 
 RUNNING_HAMMER = [
@@ -34,7 +34,7 @@ RUNNING_HAMMER = [
 ]
 
 JUMPING = pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaJump.png"))
-JUMPING_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaNuclear2.png"))
+JUMPING_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaJump1.png"))
 JUMPING_HAMMER = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJumpHammer.png"))
 
 DUCKING = [
@@ -69,10 +69,53 @@ BIRD = [
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Rodan03.png")),
 ]
 
-GUIDORAH = [
+GUIDORAH_DAMAGE = [
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah3.png")),
-    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah2.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah2.1.png")),
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah1.png")),
+]
+
+GUIDORAH_ATTACK = [
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah01.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah02.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah03.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah4.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah5.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah6.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah7.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah8.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah9.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah10.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah11.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Bird/Guidorah12.png")),
+]
+
+GODZILLA =  [
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack1.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack2.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack3.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack4.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack5.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack6.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack7.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack8.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack9.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack10.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack11.1.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack12.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack13.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack14.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack15.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack16.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack17.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack18.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack19.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaAttack20.png")),
+]
+
+GODZILLA_DAMAGE = [
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaDamage1.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaDamage2.png")),
 ]
 
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
@@ -82,6 +125,7 @@ HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
+RED = (255,0,0)
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 FUNDO = pygame.image.load(os.path.join(IMG_DIR, 'Other/6.png'))

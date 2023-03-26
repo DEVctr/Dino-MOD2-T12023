@@ -1,8 +1,10 @@
 import pygame
 import math
-from dino_runner.utils.constants import BG, ICON, SETA, SHIELD_MENU, START, RESTART, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, BACK, GAME_OVER, BLACK, WHITE
+import time
+from dino_runner.utils.constants import BG, ICON, SETA, SHIELD_MENU, START, RESTART, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, BACK, GAME_OVER, BLACK, WHITE, RED
 from dino_runner.components.dinosaur import Dinosaur
-from dino_runner.components.obstacles.guidorah import Guidorah
+from dino_runner.components.godzilla import GodzillaAtomic, GodzillaDamage
+from dino_runner.components.obstacles.guidorah import GuidorahAttack, GuidorahDamage
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.utils.text_utils import draw_message_component
 from dino_runner.components.powerups.power_up_manager import PowerUpManager
@@ -23,7 +25,10 @@ class Game:
         self.x_pos_bg = 0
         self.y_pos_bg = 380
         self.player = Dinosaur()
-        self.guidorah = Guidorah()
+        self.godzillaAtomic = GodzillaAtomic()
+        self.godzillaDamage = GodzillaDamage()
+        self.guidorahAttack = GuidorahAttack()
+        self.guidorahDamage = GuidorahDamage()
         self.atomic_power = 0
         self.obstacle_manager = ObstacleManager()
         self.power_up_manager = PowerUpManager()
@@ -43,7 +48,6 @@ class Game:
         self.game_speed = 10
         self.score = 0
         self.player.atomic_power = 0
-        self.atomic_power = 0
         while self.playing:
             self.events()
             self.update()
@@ -77,37 +81,64 @@ class Game:
         if abs(SCROLL) > back_width:
             SCROLL = 0
 
-    def draw(self):
-        self.clock.tick(FPS)
-        self.screen.fill((0, 0, 0))
-        self.scroll()
-        self.draw_background()
-        self.player.draw(self.screen)
         # Quando chegar aos 1500 pontos, o Godzilla chega até o Guidorah para duelar (implementei dessa forma somente para visualização, ainda será otimizado).
         # Caso o poder atômico for >= 50, o Godzilla ganha e o jogo segue (posteriormente após essa parte o personagem principal e o mapa vai mudar, com novos desafios).
         # Caso o poder atômico seja inferior a 50, ele perde e volta pra tela de restart.
-        if self.score >= 1500 and self.score <= 1600:
-            self.guidorah.draw(self.screen)
+
+    def draw_guidorah(self):
+        if self.score > 1500:
             if self.player.atomic_power >= 50:
-                self.draw_score()
-                self.player.shield = True
-                self.obstacle_manager.reset_obstacles()
-        else:
-            self.obstacle_manager.draw(self.screen)
+                self.godzillaAtomic.draw(self.screen)
+                self.guidorahDamage.draw(self.screen)
+                if self.score > 1600:
+                    draw_message_component("You defeated Ghidorah, wait for the next stage.", self.screen, WHITE)
+            else:
+                if self.score >= 1600:
+                    self.playing = False
+                    self.death_count += 1
+                self.guidorahAttack.draw(self.screen)
+                self.godzillaDamage.draw(self.screen)
+            self.draw_atomic_power()
+            self.obstacle_manager.reset_obstacles()
+            self.power_up_manager.reset_power_ups()
+            self.player.has_power_up = False
+            self.player.shield = False
+
+    # Verifica se o Godirah está na tela
+    def guidorah_is_on(self):
+        guidorah_is_on = False
+        if self.score > 1500:
+            guidorah_is_on = True
+        return guidorah_is_on
+    
+    def draw(self):
+        guidorah = self.guidorah_is_on()
+        self.clock.tick(FPS)
+        self.draw_atomic_power()
+        self.screen.fill((0, 0, 0))
+        self.scroll()
+        self.draw_background()
+        if guidorah == False: #Remove o Godzilla quando o Godirah está na tela (adicionar outra classe para o Godzilla (Explodindo)).
+            self.player.draw(self.screen)
             self.draw_score()
-            self.draw_power_up_time()
-            self.power_up_manager.draw(self.screen)     
+        self.draw_guidorah()
+        self.obstacle_manager.draw(self.screen)
+        self.draw_atomic_power()
+        self.draw_power_up_time()
+        self.power_up_manager.draw(self.screen)   
         pygame.display.update()
         pygame.display.flip()
 
     def draw_background(self):
+        guidorah = self.guidorah_is_on()
         image_width = BG.get_width()
         self.screen.blit(BG, (self.x_pos_bg, self.y_pos_bg))
         self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
         if self.x_pos_bg <= -image_width:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
-        self.x_pos_bg -= self.game_speed - 2
+        if guidorah == False: # Para o chão se durante o duelo
+            self.x_pos_bg -= self.game_speed - 2
 
     def draw_score(self):
         draw_message_component(
@@ -116,12 +147,21 @@ class Game:
             pos_x_center=900,
             pos_y_center=50
         )
+    def draw_atomic_power(self):
         draw_message_component(
             f"atomic power: {self.player.atomic_power}",
             self.screen, BLACK,
             font_size=18,
             pos_x_center=100,
             pos_y_center=50
+        )
+        draw_message_component(
+            "If your atomic power is >= 50 you will defeat King Guidorah.",
+            self.screen, RED, 15, 480, 750
+        )
+        draw_message_component(
+            f"Missing {1500 - self.score} points for the next stage:",
+            self.screen, RED, 15, 460, 673
         )
 
     def draw_power_up_time(self):
