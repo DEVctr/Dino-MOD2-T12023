@@ -22,6 +22,13 @@ class ObstacleManager:
                     break
                 else:
                     self.obstacles.remove(obstacle)
+            '''elif game.player_2.dino_rect.colliderect(obstacle.rect):
+                if not game.player.has_power_up:
+                    game.playing = False
+                    game.death_count += 1
+                    break
+                else:
+                    self.obstacles.remove(obstacle)'''
 
     def reset_obstacles(self):
         self.obstacles = []

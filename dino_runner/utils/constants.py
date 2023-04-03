@@ -10,10 +10,11 @@ FPS = 30
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
 # Assets Constants
-# Fazer função para animação do Guidorah e chamar no show_menu #
-ICON = pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaDied.png"))
+ICON = pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaJumping.png"))
+ICON_2 = pygame.image.load(os.path.join(IMG_DIR, "Other/GodzillaDied.png"))
 SETA = pygame.image.load(os.path.join(IMG_DIR, "Other/setas.png"))
 
+# Godzilla
 RUNNING = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/godzillaRun1.png")),
     pygame.image.load(os.path.join(IMG_DIR, "Dino/godzillaRun2.png")),
@@ -28,14 +29,8 @@ RUNNING_SHIELD = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaRunShield4.png")),
 ]
 
-RUNNING_HAMMER = [
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1Hammer.png")),
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")),
-]
-
-JUMPING = pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaJump.png"))
+JUMPING = pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaJumping.png"))
 JUMPING_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaJump1.png"))
-JUMPING_HAMMER = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJumpHammer.png"))
 
 DUCKING = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaDuck1.png")),
@@ -47,9 +42,20 @@ DUCKING_SHIELD = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/GodzillaNuclearDuck2.png")),
 ]
 
-DUCKING_HAMMER = [
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1Hammer.png")),
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck2.png")),
+#Motrah
+FLYING = [
+    pygame.image.load(os.path.join(IMG_DIR, "Motrah/Motrah1.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Motrah/Motrah2.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Motrah/Motrah3.png")),
+]
+UP = pygame.image.load(os.path.join(IMG_DIR, "Motrah/Motrah1.png"))
+DOWN = pygame.image.load(os.path.join(IMG_DIR, "Motrah/Motrah3.png"))
+DOWN_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Motrah/MotrahDownShield.png"))
+UP_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Motrah/MotrahUpShield.png"))
+FLYING_SHIELD = [
+    pygame.image.load(os.path.join(IMG_DIR, "Motrah/MotrahShield1.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Motrah/MotrahShield2.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Motrah/MotrahShield3.png")),
 ]
 
 SMALL_CACTUS = [
@@ -121,7 +127,6 @@ GODZILLA_DAMAGE = [
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/ogiva01.png'))
 SHIELD_MENU = pygame.image.load(os.path.join(IMG_DIR, 'Other/ogivamenu.png'))
-HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -130,6 +135,8 @@ RED = (255,0,0)
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 FUNDO = pygame.image.load(os.path.join(IMG_DIR, 'Other/6.png'))
 BACK = pygame.transform.scale(FUNDO, (SCREEN_WIDTH, SCREEN_HEIGHT - 110))
+FUNDO_2 = pygame.image.load(os.path.join(IMG_DIR, 'Other/1.png'))
+BACK_2 = pygame.transform.scale(FUNDO_2, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 START = pygame.image.load(os.path.join(IMG_DIR, 'Other/startWhite.png'))
 RESTART = pygame.image.load(os.path.join(IMG_DIR, 'Other/restartWhite.png'))

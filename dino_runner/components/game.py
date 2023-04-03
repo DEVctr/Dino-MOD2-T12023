@@ -1,8 +1,10 @@
 import pygame
 import math
-import time
-from dino_runner.utils.constants import BG, ICON, SETA, SHIELD_MENU, START, RESTART, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, BACK, GAME_OVER, BLACK, WHITE, RED
+from dino_runner.utils.constants import (BG, ICON, ICON_2, SETA,
+SHIELD_MENU, START, RESTART, SCREEN_HEIGHT, SCREEN_WIDTH,
+TITLE, FPS, DEFAULT_TYPE, BACK, BACK_2, GAME_OVER, BLACK, WHITE, RED)
 from dino_runner.components.dinosaur import Dinosaur
+from dino_runner.components.motrah import Motrah
 from dino_runner.components.godzilla import GodzillaAtomic, GodzillaDamage
 from dino_runner.components.obstacles.guidorah import GuidorahAttack, GuidorahDamage
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
@@ -25,6 +27,7 @@ class Game:
         self.x_pos_bg = 0
         self.y_pos_bg = 380
         self.player = Dinosaur()
+        self.player_2 = Motrah()
         self.godzillaAtomic = GodzillaAtomic()
         self.godzillaDamage = GodzillaDamage()
         self.guidorahAttack = GuidorahAttack()
@@ -52,7 +55,14 @@ class Game:
             self.events()
             self.update()
             self.draw()
-        
+    
+    # Definir a segunda fase
+    def game_2_on(self):
+        self.game_2 = False
+        if self.score > 1600:
+            self.game_2 = True
+        return self.game_2  
+
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -62,6 +72,7 @@ class Game:
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
+        self.player_2.update(user_input)
         self.obstacle_manager.update(self)
         self.update_score()
         self.power_up_manager.update(self.score, self.game_speed, self.player)
@@ -72,7 +83,10 @@ class Game:
             self.game_speed += 2
 
     def scroll(self):
-        global SCROLL
+        global SCROLL, BACK
+        game_2 = self.game_2_on()
+        if game_2 == True:
+            BACK = BACK_2 # Muda o plano de fundo quando começar a segunda fase
         back_width = BACK.get_width()
         tiles = math.ceil(SCREEN_WIDTH / back_width + 50)
         for i in range(0, tiles):
@@ -87,11 +101,15 @@ class Game:
 
     def draw_guidorah(self):
         if self.score > 1500:
+            game_2 = self.game_2_on()
             if self.player.atomic_power >= 50:
-                self.godzillaAtomic.draw(self.screen)
-                self.guidorahDamage.draw(self.screen)
-                if self.score > 1600:
-                    draw_message_component("You defeated Ghidorah, wait for the next stage.", self.screen, WHITE)
+                if game_2 == False:
+                    self.godzillaAtomic.draw(self.screen)
+                    self.guidorahDamage.draw(self.screen)
+                if self.score >= 1600:
+                    self.player.has_power_up = True
+                    self.player.shield = True
+                    #draw_message_component("You defeated Ghidorah, wait for the next stage.", self.screen, WHITE)      
             else:
                 if self.score >= 1600:
                     self.playing = False
@@ -104,7 +122,7 @@ class Game:
             self.player.has_power_up = False
             self.player.shield = False
 
-    # Verifica se o Godirah está na tela
+    # Verifica se o Guidorah está na tela
     def guidorah_is_on(self):
         guidorah_is_on = False
         if self.score > 1500:
@@ -117,10 +135,16 @@ class Game:
         self.draw_atomic_power()
         self.screen.fill((0, 0, 0))
         self.scroll()
-        self.draw_background()
+        game_2 = self.game_2_on()
+        if game_2 == False: 
+            self.draw_background()
         if guidorah == False: #Remove o Godzilla quando o Godirah está na tela (adicionar outra classe para o Godzilla (Explodindo)).
             self.player.draw(self.screen)
             self.draw_score()
+        if game_2 == True:
+            self.player_2.draw(self.screen)
+            self.draw_score()
+            self.draw_atomic_power()
         self.draw_guidorah()
         self.obstacle_manager.draw(self.screen)
         self.draw_atomic_power()
@@ -137,7 +161,7 @@ class Game:
         if self.x_pos_bg <= -image_width:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
-        if guidorah == False: # Para o chão se durante o duelo
+        if guidorah == False: # Para o chão durante o duelo
             self.x_pos_bg -= self.game_speed - 2
 
     def draw_score(self):
@@ -148,20 +172,29 @@ class Game:
             pos_y_center=50
         )
     def draw_atomic_power(self):
-        draw_message_component(
-            f"atomic power: {self.player.atomic_power}",
-            self.screen, BLACK,
-            font_size=18,
-            pos_x_center=100,
-            pos_y_center=50
-        )
+        game_2 = self.game_2_on()
+        if game_2 == False:
+            draw_message_component(
+                f"atomic power: {self.player.atomic_power}",
+                self.screen, BLACK,
+                font_size=18,
+                pos_x_center=100,
+                pos_y_center=50
+            )
+        else:
+            draw_message_component(
+                f"atomic power: {self.player_2.atomic_power}",
+                self.screen, BLACK,
+                font_size=18,
+                pos_x_center=100,
+                pos_y_center=50
+            )
         guidorah = self.guidorah_is_on()
         if guidorah == False:
             draw_message_component(
                 "If your atomic power is >= 50 you will defeat King Guidorah.",
                 self.screen, RED, 15, 480, 750
             )
-        if guidorah == False:
             draw_message_component(
                 f"Missing {1500 - self.score} points for the next stage:",
                 self.screen, RED, 15, 460, 673
@@ -218,7 +251,7 @@ class Game:
                 pos_y_center=half_screen_height - 50
             )
             self.screen.blit(GAME_OVER, (half_screen_width - 190, half_screen_height - 200))
-            self.screen.blit(ICON, (half_screen_width - 50, half_screen_height + 30))
+            self.screen.blit(ICON_2, (half_screen_width - 50, half_screen_height + 30))
 
         pygame.display.flip()
         
